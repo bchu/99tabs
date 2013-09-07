@@ -2,6 +2,14 @@
 
 I've got 99 problems and they're all Chrome tabs.
 
+**Note: work on this project as stopped, as it appears to be technically unfeasible to implement tree-style tabs with the current state of the Chrome browser API.**
+
+Approaches attempted:
+
+1. Injecting a fixed position sidebar widget on every page. Html element is resized to accomodate this element. *Problem:* Other fixed position elements will interfere with the widget (and vice versa).
+2. Replacing the entire page with both the sidebar widget and an iframe containing the website. *Problem:* certain websites block themselves from being contained in iframes (i.e: Facebook).
+3. Replacing the entire page with both the sidebar widget and an iframe that contains a custom extension page. The extension transmits the html from the parent window into the iframe with the custom extension page. *Problem:* Parent JS execution cannot be stopped and will often crash. Many websites contain protocol-less URLs, which conflicts with the fact that the custom extension page has a protocol of `chrome-extension://`.
+
 ##Todo:
 
 Data layer:  
