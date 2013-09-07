@@ -12,11 +12,12 @@
     {
       "matches": ["<all_urls>"],
       "css": ["sidebar.css"],
-      "js": ["sidebar.js"]
+      "js": ["sidebar.js"],
+      "run_at":"document_end"
     }
   ],
   "background": {
     "scripts": ["tabs.js"],
     "persistent": false
-  },
+  }
 }
