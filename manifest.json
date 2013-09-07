@@ -6,18 +6,26 @@
   "version": "0.1",
 
   "permissions": [
-    "tabs"
+    "tabs",
+    "http://*/",
+    "https://*/",
+    "chrome-extension://"
   ],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "css": ["sidebar.css"],
       "js": ["sidebar.js"],
+      "all_frame":false,
       "run_at":"document_end"
     }
   ],
+  "content_security_policy": "script-src 'self' chrome://; object-src 'self'",
   "background": {
     "scripts": ["tabs.js"],
     "persistent": false
-  }
+  },
+  "web_accessible_resources": [
+    "frame/*"
+  ]
 }
