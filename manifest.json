@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+
+  "name": "99tabs",
+  "description": "I've got 99 problems and they're all Chrome tabs.",
+  "version": "0.1",
+
+  "permissions": [
+    "tabs"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["sidebar.css"],
+      "js": ["sidebar.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["tabs.js"],
+    "persistent": false
+  },
+}
