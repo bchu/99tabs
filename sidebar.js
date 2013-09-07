@@ -1,4 +1,4 @@
-window.stop();
+$ = document.querySelector;
 
 var Tab = function(tabId, title) {
   this.node = document.createElement('li');
@@ -16,23 +16,31 @@ Tab.prototype.updateTitle = function(title) {
 var sidebar = document.createElement('ul');
 sidebar.id = '_99tabs_menu';
 
-var frame = document.createElement('iframe');
-frame.id = '_99tabs_frame';
-var frameUrl = chrome.extension.getURL('frame/frame.html');
-console.log(frameUrl);
-frame.src = frameUrl;
+document.addEventListener("DOMContentLoaded", function() {
+  var frame = document.createElement('iframe');
+  frame.id = '_99tabs_frame';
+  var frameUrl = chrome.extension.getURL('frame/frame.html');
+  frame.src = frameUrl;
 
-var title = document.querySelector('title').text;
-document.documentElement.innerHTML = ''; // clear out html element
-var titleEl = document.createElement('title');
-titleEl.text = title;
-document.head.appendChild(titleEl);
+  var title = document.querySelector('title').text;
+  var replacedHtml = document.documentElement.innerHTML;
+  document.documentElement.innerHTML = ''; // clear out html element
+  var titleEl = document.createElement('title');
+  titleEl.text = title;
+  document.head.appendChild(titleEl);
 
-var body = document.body;
-var bodyStyle = body.style;
+  var body = document.body;
+  var bodyStyle = body.style;
 
-body.appendChild(sidebar);
-body.appendChild(frame);
+  body.appendChild(sidebar);
+  body.appendChild(frame);
+  setTimeout(function() {
+    document.querySelector('iframe').contentWindow.postMessage(JSON.stringify({header:'html', body:replacedHtml}),'*');
+  }, 4);
+  // window.stop();
+});
+
+
 
 
 // var templateStart = '<template id="_99tabs_menu_template">' +

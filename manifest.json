@@ -8,8 +8,7 @@
   "permissions": [
     "tabs",
     "http://*/",
-    "https://*/",
-    "chrome-extension://"
+    "https://*/"
   ],
   "content_scripts": [
     {
@@ -17,15 +16,16 @@
       "css": ["sidebar.css"],
       "js": ["sidebar.js"],
       "all_frame":false,
-      "run_at":"document_end"
+      "run_at":"document_start"
     }
   ],
-  "content_security_policy": "script-src 'self' chrome://; object-src 'self'",
+  "content_security_policy": "script-src 'self' chrome-extension://; object-src 'self'",
   "background": {
     "scripts": ["tabs.js"],
     "persistent": false
   },
   "web_accessible_resources": [
-    "frame/*"
+    "frame/*",
+    "frame/frame.html"
   ]
 }

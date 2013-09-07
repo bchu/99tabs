@@ -13,6 +13,8 @@
 }
 
 #_99tabs_frame {
+  box-sizing: border-box;
+  padding-left: 200px;
   width: 100% !important;
   height: 100% !important;
   border: 0 !important;
