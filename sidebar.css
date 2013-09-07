@@ -1,0 +1,10 @@
+#_99tabs_menu {
+  padding: 0 !important;
+  margin: 0 !important;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100px; /*make width user-adjustable and remembered*/
+  height: 100%;
+  background: blue;
+}
