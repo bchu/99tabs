@@ -35,25 +35,41 @@ body.insertBefore(el,body.firstChild);
 // shadow.appendChild(template.content);
 // template.remove();
 
-
+// handle % tage widths for html tags - update on browser resize (debounce it)
 
 //height of top bar, or width in your case
-var sidebarWidth = getComputedStyle(el).width;
+var sidebarWidth = parseFloat(getComputedStyle(el).width); //parseFloat - removes 'px'
 
 //resolve html tag, which is more dominant than <body>
 var html = document.documentElement;
+var originalHtmlWidth = getComputedStyle(html).width;
+var originalHtmlLeft = getComputedStyle(html).left;
 
 //position
 if (getComputedStyle(html).position === 'static') { //getComputedStyle(html).position
   html.style.position = ('position', 'relative'); //use .style or setAttribute
 }
 
-//top (or right, left, or bottom) offset
-var currentLeft = getComputedStyle(html).left;
-if (currentLeft === 'auto') {
-  currentLeft = 0;
-}
-else {
-  currentLeft = parseFloat(left); //parseFloat removes any 'px' and returns a number type
-}
-html.style.left = currentLeft + parseFloat(sidebarWidth) + 'px';
+var resizeLayout = function() {
+  //top (or right, left, or bottom) offset
+  // var currentLeft = getComputedStyle(html).left;
+  // var currentWidth = getComputedStyle(html).width;
+  var currentLeft = originalHtmlLeft;
+  var currentWidth = originalHtmlWidth;
+  if (currentLeft === 'auto') {
+    currentLeft = 0;
+  }
+  else {
+    currentLeft = parseFloat(currentLeft); //parseFloat removes any 'px' and returns a number type
+  }
+  currentWidth = parseFloat(currentWidth);
+  // 15 is for 
+  html.style.width = window.innerWidth - sidebarWidth - 15 + 'px'; //currentWidth - parseFloat(sidebarWidth) + 'px';
+  html.style.left = currentLeft + sidebarWidth + 'px';
+};
+resizeLayout();
+
+
+window.addEventListener('resize', function() {
+    resizeLayout();
+}, true);
