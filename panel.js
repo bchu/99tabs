@@ -29,6 +29,7 @@ window.addEventListener('DOMContentLoaded', function() {
     this.index = tab.index;
     this.favicon = tab.favIconUrl;
     this.node = document.createElement('li');
+    this.node.find = $;
     this.node.id = 't' + this.id;
     var innerHtml = '<div class="favicon"><img src="' + this.favicon + '"></div>' +
       '<div class="times">&times;</div>' +
@@ -49,9 +50,6 @@ window.addEventListener('DOMContentLoaded', function() {
     this.node.addEventListener('click', function(evt) {
       if (evt.target.classList.contains('times')) {
         self.remove();
-        if (activeTab === self) {
-          // TODO: handle stepping back of tabs (Chrome move forwards)
-        }
         return;
       }
       activeTab.node.classList.remove('active');
@@ -68,13 +66,30 @@ window.addEventListener('DOMContentLoaded', function() {
     this.node.parentNode.removeChild(this.node);
     tabs[this.id] = undefined;
   };
-  Tab.prototype.update= function(tab) {
+  Tab.prototype.updateTitle = function(title) {
+    this.node.find('.title').textContent = title;
+    this.title = title;
+  };
+  Tab.prototype.updateFavicon = function(url) {
+    this.node.find('.favicon img').src = url;
+    this.favicon = url;
+  };
+  Tab.prototype.update = function(tab) {
     if (this.title !== tab.title) {
-      this.title = tab.title;
+      this.updateTitle(tab.title);
     }
     if (this.favicon !== tab.favIconUrl) {
-
+      this.updateFavicon(tab.favIconUrl);
     }
+  };
+  Tab.prototype.replaceWith = function(replaceId) {
+    this.remove(true);
+    delete tabs[this.id];
+    this.id = replaceId;
+    if (tabs[replaceId]) {
+      alert('merge in!');
+    }
+    tabs[replaceId] = this;
   };
 
 if (!chrome || !chrome.runtime) {
@@ -97,25 +112,32 @@ if (!chrome || !chrome.runtime) {
 
   //Created a port with background page for continous message communication
   var port = chrome.runtime.connect({name: "99tabs"});
-
   port.onMessage.addListener(function (msg) {
     var action = msg.action;
     var body = msg.body;
     switch(action) {
+      case 'update':
+        //body is tab
+        tabs[body.id].update(body);
+        break;
+      case 'replace':
+        alert('replace');
+        tabs[body.addId].replaceWith(body.removeId);
+        break;
+      case 'add':
+        // body is tab
+        new Tab(body);
+        break;
+      case 'remove':
+        //body is id
+        tabs[body].remove(true);
+        break;
       case 'populate':
         for (var i = 0; i<msg.body.length; i++) {
           var tab = msg.body[i];
           new Tab(tab);
         }
-      break;
-      case 'add':
-        // body is tab
-        new Tab(body);
-      break;
-      case 'remove':
-        //body is id
-        tabs[body].remove(true);
-      break;
+        break;
     }
 
   });
