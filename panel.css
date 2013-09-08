@@ -11,14 +11,13 @@ body {
   font-family: sans-serif;  
   font-weight: bold;
   font-size: 14px;
-  text-shadow: inset 0 0 1px 0 gray;
+  text-shadow: 0 -1px 0 gray;
 
   padding-right: 5px;
   box-sizing: border-box;
   height: 100%;
   width: 100%;
   list-style: none;
-  /*border-right: 2px solid rgb(102,102,102);*/
 }
 
 .menu li {
