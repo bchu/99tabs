@@ -1,3 +1,7 @@
+html, body, .menu {
+  height: 100%;
+}
+
 body {
   background: rgb(121,121,121);
 }
@@ -11,16 +15,17 @@ body {
   cursor: default;
   -webkit-user-select: none;
 
-  font-family: sans-serif;  
+  font-family: 'Lucida Grande', sans-serif;
   font-weight: bold;
   font-size: 14px;
   text-shadow: 0 -1px 0 gray;
 
   padding-right: 5px;
   box-sizing: border-box;
-  height: 100%;
   width: 100%;
   list-style: none;
+
+  /*box-shadow: inset 2px 0 5px 0 rgb(100,100,100);*/
 }
 
 .menu li {
@@ -33,7 +38,7 @@ body {
   line-height: 22px;
   background: rgb(157,157,157);
   margin: 4px 0;
-  box-shadow: 0 0 3px 0 rgb(50,50,50);
+  box-shadow: 0 0 3px 0 rgb(50,50,50);/*, inset 2px 0 5px 0 rgb(100,100,100);*/
 }
 
 .menu .active {
@@ -41,12 +46,29 @@ body {
   box-shadow: 0 0 3px 0 rgb(0,0,0);
 }
 
+.title {
+  box-sizing: border-box;
+  /* both white-space and overflow:hidden; are necessary for text-overflow*/
+  /* text-overflow is not triggered by line-break overflow, so white-space:nowrap is necessary*/
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 6px; /*matches .times margin-left*/
+}
+
 .favicon {
-  float:right;
+  float:left;
+  margin: 0 8px;
+}
+.favicon img {
+  height: 80%;
+  width: auto;
 }
 
 .times {
-  float:left;
+  font-family: sans-serif;
+  float:right;
+  margin-right: 12px;
   margin-left: 6px;
   color: rgb(65,65,65);
 }

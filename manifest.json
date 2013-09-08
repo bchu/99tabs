@@ -9,6 +9,6 @@
   "devtools_page": "devtoolsBackground.html",
   "background": {
     "scripts": ["tabs.js"],
-    "persistent": false
+    "persistent": true
   }
 }
