@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var self = this;
     this.node.addEventListener('click', function(evt) {
       if (evt.target.classList.contains('times')) {
-        this.remove();
+        self.remove();
         if (activeTab === self) {
           // TODO: handle stepping back of tabs (Chrome move forwards)
         }

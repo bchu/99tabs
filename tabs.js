@@ -4,13 +4,11 @@
 // debug:
 var bg = chrome.extension.getBackgroundPage();
 console = bg.console;
-console.log('hi');
 
 var currentTab;
 var tabs;
 
 var startup = function(port) {
-console.log('hi');
   // Startup
   chrome.tabs.query({}, function(tabsIn) {
     console.log(tabsIn);
@@ -32,15 +30,16 @@ console.log('hi');
 
 chrome.runtime.onConnect.addListener(function(port) {
   if (port.name !== '99tabs') {
+    console.log('Wrong port');
     return;
   }
   startup(port);
   port.onMessage.addListener(function(msg) {
+    console.log('Received msg');
     console.log(msg);
     var action = msg.action;
     switch (action) {
       case 'remove':
-        debugger;
         chrome.tabs.remove(msg.id);
       break;
     }
