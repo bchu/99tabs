@@ -2,7 +2,7 @@
 
 I've got 99 problems and they're all Chrome tabs.
 
-**Note: this project requires use of the dev tools panel. This requires opening the panel manually on every open tab. Unfortunately, no other approach seems feasible.**
+**Note: this project requires use of the dev tools panel. This requires opening the panel manually on every open tab. No other approach seems feasible.**
 
 Failed approaches attempted:
 
@@ -14,6 +14,7 @@ Failed approaches attempted:
 
 View layer:  
 
+* Programmatic opening of panel
 * Add and style button at bottom to add a new tab
 * handle drag and drop (detach and swap)
 * handle move events
