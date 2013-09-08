@@ -7,9 +7,10 @@ console = bg.console;
 
 var currentTab;
 var tabs;
+var connected = false;
 
 var startup = function(port) {
-  // Startup
+  // initialization:
   chrome.tabs.query({}, function(tabsIn) {
     console.log(tabsIn);
     tabs = tabsIn;
@@ -17,31 +18,48 @@ var startup = function(port) {
   });
 
   chrome.tabs.onCreated.addListener(function(tab) {
-    tabs.splice(tab.index,0,tab);
+    if (!connected) {
+      port = chrome.runtime.connect({name: "99tabs"});
+    }
+    // {
+      port.postMessage({action:'add',body:tab});
+    // }
+  });
+  chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
+    port.postMessage({action:'remove', body:tabId});
   });
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    var idx = tab.index;
-    tab[idx] = tab;
+    port.postMessage({action:'update', body:tab});
   });
   // chrome.tabs.onMoved.addListener(function(tabId, moveInfo) {}); 
   // chrome.tabs.onActivated.addListener(function(activeInfo) {...}); 
   // chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {...}); 
 };
 
-chrome.runtime.onConnect.addListener(function(port) {
-  if (port.name !== '99tabs') {
-    console.log('Wrong port');
-    return;
+var messageHandler = function(msg) {
+  console.log('Received msg');
+  console.log(msg);
+  var action = msg.action;
+  var body = msg.body;
+  switch (action) {
+    case 'remove':
+      chrome.tabs.remove(body);
+    break;
   }
-  startup(port);
-  port.onMessage.addListener(function(msg) {
-    console.log('Received msg');
-    console.log(msg);
-    var action = msg.action;
-    switch (action) {
-      case 'remove':
-        chrome.tabs.remove(msg.id);
-      break;
-    }
+};
+
+chrome.runtime.onConnect.addListener(function(port) {
+  connected = true;
+  port.onDisconnect.addListener(function() {
+    connected = false;
   });
+  // if (!port) {
+  //   port = chrome.runtime.connect({name: "99tabs"});
+  // }
+  // if (port.name !== '99tabs') {
+  //   console.log('Wrong port');
+  //   return;
+  // }
+  startup(port);
+  port.onMessage.addListener(messageHandler);
 });

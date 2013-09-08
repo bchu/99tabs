@@ -19,22 +19,24 @@ window.addEventListener('DOMContentLoaded', function() {
   var menu = $('.menu');
   menu.find = $;
   var activeTab;
+  var tabs = {};
 
+  var Tab = function(tab) {
+    this.id = tab.id;
+    tabs[this.id] = this;
 
-  var Tab = function(tabId, idx, title, faviconUrl) {
-    this.id = tabId;
+    this.title = tab.title;
+    this.index = tab.index;
+    this.favicon = tab.favIconUrl;
     this.node = document.createElement('li');
-    this.node.id = 't' + tabId;
-    // if (/undefined$/g.test(faviconUrl)) {
-    //   faviconUrl = '';
-    // }
-    var innerHtml = '<div class="favicon"><img src="' + faviconUrl + '"></div>' +
+    this.node.id = 't' + this.id;
+    var innerHtml = '<div class="favicon"><img src="' + this.favicon + '"></div>' +
       '<div class="times">&times;</div>' +
-      '<div class="title">' + title + '</div>';
+      '<div class="title">' + this.title + '</div>';
     this.node.innerHTML = innerHtml;
 
     // insert tab element
-    var before = menu.children[idx];
+    var before = menu.children[this.index];
     if (!before) {
       menu.appendChild(this.node);
     }
@@ -57,25 +59,34 @@ window.addEventListener('DOMContentLoaded', function() {
       self.node.classList.add('active');
     }, true);
   };
-  Tab.prototype.remove = function()  {
+  // silence - boolean that determines whether to silence post message (default false)
+  Tab.prototype.remove = function(silence)  {
+    silence = silence || false;
+    if (!silence) {
+      port.postMessage({action:'remove', body:this.id});
+    }
     this.node.parentNode.removeChild(this.node);
-    this.node = undefined;
-    port.postMessage({action:'remove', id:this.id});
+    tabs[this.id] = undefined;
   };
-  Tab.prototype.updateTitle = function(title) {
-    this.node.text = title;
-  };
-  Tab.prototype.updateFavicon = function(url) {
-    this.node.text = title;
-  };
+  Tab.prototype.update= function(tab) {
+    if (this.title !== tab.title) {
+      this.title = tab.title;
+    }
+    if (this.favicon !== tab.favIconUrl) {
 
+    }
+  };
 
 if (!chrome || !chrome.runtime) {
   // TEST DATA
   var test = [];
   for (var i = 0; i <15; i++) {
     var id = Math.floor(Math.random()*10000);
-    var tab = new Tab(id, i, 'Tab numero  afsadjfkjasdlfjasdflkjaskldfjasljfasdflasd;fjasdlfj jalskdjfalsdj f' + i);
+    var tab = new Tab({
+      id:id,
+      index:i,
+      title:'Tab numero  afsadjfkjasdlfjasdflkjaskldfjasljfasdflasd;fjasdlfj jalskdjfalsdj f' + i
+    });
     test.push(tab);
     if (i === 15) {
       tab.node.classList.add('active');
@@ -89,12 +100,21 @@ if (!chrome || !chrome.runtime) {
 
   port.onMessage.addListener(function (msg) {
     var action = msg.action;
+    var body = msg.body;
     switch(action) {
       case 'populate':
         for (var i = 0; i<msg.body.length; i++) {
           var tab = msg.body[i];
-          new Tab(tab.id,tab.index,tab.title, tab.favIconUrl);
+          new Tab(tab);
         }
+      break;
+      case 'add':
+        // body is tab
+        new Tab(body);
+      break;
+      case 'remove':
+        //body is id
+        tabs[body].remove(true);
       break;
     }
 

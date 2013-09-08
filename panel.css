@@ -73,3 +73,9 @@ body {
   margin-left: 6px;
   color: rgb(65,65,65);
 }
+.times:hover {
+  color: white;
+  /*background: rgb(120,120,120);*/
+  text-shadow: 0 0 10px black;
+  /*text-shadow: 0 0 2px black;*/
+}
