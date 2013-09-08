@@ -1,5 +1,5 @@
 html, body, .menu {
-  height: 100%;
+  /*height: 100%;*/
 }
 
 body {
@@ -11,6 +11,11 @@ body {
   padding: 0;
   margin: 0;
   /* END OVERRIDES */
+
+  position:absolute;
+  left:0;
+  top:0;
+  max-width: 500px;
 
   cursor: default;
   -webkit-user-select: none;
@@ -24,7 +29,6 @@ body {
   box-sizing: border-box;
   width: 100%;
   list-style: none;
-
   /*box-shadow: inset 2px 0 5px 0 rgb(100,100,100);*/
 }
 
