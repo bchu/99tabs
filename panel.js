@@ -94,7 +94,7 @@ window.addEventListener('DOMContentLoaded', function() {
     delete tabs[this.id];
     this.id = replaceId;
     if (tabs[replaceId]) {
-      alert('merge in!');
+      // alert('merge in!');
     }
     tabs[replaceId] = this;
   };
@@ -132,7 +132,7 @@ if (!chrome || !chrome.runtime) {
         tabs[body].activate();
         break;
       case 'replace':
-        alert('replace');
+        // alert('replace');
         tabs[body.addId].replaceWith(body.removeId);
         break;
       case 'add':

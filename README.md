@@ -2,6 +2,8 @@
 
 I've got 99 problems and they're all Chrome tabs.
 
+A Chrome extension for tree-style, vertically listed tabs. So when you've got 99 tabs open, Chrome ain't the problem. 
+
 **Note: this project requires use of the dev tools panel. This requires opening the panel manually on every open tab. No other approach seems feasible.**
 
 Failed approaches attempted:
