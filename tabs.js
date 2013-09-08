@@ -31,7 +31,13 @@ chrome.tabs.onReplaced.addListener(function(addId, removeId) {
   notifyDevtools({action:'replace',body:{addId:addId,removeId:removeId}});
 });
 // chrome.tabs.onMoved.addListener(function(tabId, moveInfo) {}); 
-// chrome.tabs.onActivated.addListener(function(activeInfo) {...}); 
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+  console.log('activated:',activeInfo);
+  notifyDevtools({action:'activate',body:activeInfo.tabId});
+});
+chrome.tabs.onHighlighted.addListener(function(highlightInfo) {
+  // console.log('highlighted:',highlightInfo);
+});
 
 var messageHandler = function(msg) {
   console.log('Received msg');

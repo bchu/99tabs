@@ -17,8 +17,8 @@ body {
 
   font-family: 'Lucida Grande', sans-serif;
   font-weight: bold;
-  font-size: 14px;
-  text-shadow: 0 -1px 0 gray;
+  font-size: 12px;
+  /*text-shadow: 0 -1px 0 gray;*/
 
   padding-right: 5px;
   box-sizing: border-box;

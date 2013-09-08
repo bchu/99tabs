@@ -52,10 +52,15 @@ window.addEventListener('DOMContentLoaded', function() {
         self.remove();
         return;
       }
-      activeTab.node.classList.remove('active');
-      activeTab = self;
-      self.node.classList.add('active');
+      self.activate(true);
     }, true);
+  };
+  // notify - boolean that determines whether to post message (default false)
+  Tab.prototype.activate = function(notify) {
+    notify = notify || false;
+    activeTab.node.classList.remove('active');
+    activeTab = this;
+    this.node.classList.add('active');
   };
   // silence - boolean that determines whether to silence post message (default false)
   Tab.prototype.remove = function(silence)  {
@@ -119,6 +124,10 @@ if (!chrome || !chrome.runtime) {
       case 'update':
         //body is tab
         tabs[body.id].update(body);
+        break;
+      case 'activate':
+        // body is id
+        tabs[body].activate();
         break;
       case 'replace':
         alert('replace');
