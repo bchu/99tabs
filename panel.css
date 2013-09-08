@@ -8,6 +8,9 @@ body {
   margin: 0;
   /* END OVERRIDES */
 
+  cursor: default;
+  -webkit-user-select: none;
+
   font-family: sans-serif;  
   font-weight: bold;
   font-size: 14px;
@@ -29,11 +32,21 @@ body {
   height: 22px;
   line-height: 22px;
   background: rgb(157,157,157);
-  margin: 5px 0;
+  margin: 4px 0;
   box-shadow: 0 0 3px 0 rgb(50,50,50);
 }
 
 .menu .active {
   background: rgb(179,179,179);
   box-shadow: 0 0 3px 0 rgb(0,0,0);
+}
+
+.favicon {
+  float:right;
+}
+
+.times {
+  float:left;
+  margin-left: 6px;
+  color: rgb(65,65,65);
 }

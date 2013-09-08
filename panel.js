@@ -14,12 +14,16 @@ window.addEventListener('DOMContentLoaded', function() {
 
   var menu = $('.menu');
   menu.find = $;
+  var activeTab;
+
 
   var Tab = function(tabId, idx, title) {
     this.node = document.createElement('li');
     this.node.id = 't' + tabId;
-    this.node.innerHTML = title;
+    var innerHtml = '<span class="favicon"></span>' + '<span class="times">&times;</span>' + title;
+    this.node.innerHTML = innerHtml;
 
+    // insert tab element
     var before = menu.children[idx];
     if (!before) {
       menu.appendChild(this.node);
@@ -27,6 +31,14 @@ window.addEventListener('DOMContentLoaded', function() {
     else {
       menu.insertBefore(before, this.node);
     }
+
+    // add click listener to tab, also handle x button
+    var self = this;
+    this.node.addEventListener('click', function(evt) {
+      activeTab.node.classList.remove('active');
+      activeTab = self;
+      self.node.classList.add('active');
+    }, true);
   };
   Tab.prototype.remove = function()  {
     this.node.parentNode.removeChild(this.node);
@@ -38,12 +50,13 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // TEST DATA
   var test = [];
-  for (var i = 0; i < 20; i++) {
+  for (var i = 0; i < 30; i++) {
     var id = Math.floor(Math.random()*10000);
     var tab = new Tab(id, i, 'Tab numero ' + i);
     test.push(tab);
     if (i === 15) {
       tab.node.classList.add('active');
+      activeTab = tab;
     }
   }
 }, true);
