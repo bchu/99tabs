@@ -46,8 +46,13 @@ var messageHandler = function(msg) {
   var body = msg.body;
   switch (action) {
     case 'remove':
+      // body is id
       chrome.tabs.remove(body);
-    break;
+      break;
+    case 'activate':
+      // body is id
+      chrome.tabs.update(body, {active: true});
+      break;
   }
 };
 

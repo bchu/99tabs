@@ -1,7 +1,6 @@
 // debug:
 // var bg = chrome.extension.getBackgroundPage();
 // console = bg.console;
-
 window.addEventListener('DOMContentLoaded', function() {
   $ = function(sel) {
     var self = this;
@@ -58,9 +57,12 @@ window.addEventListener('DOMContentLoaded', function() {
   // notify - boolean that determines whether to post message (default false)
   Tab.prototype.activate = function(notify) {
     notify = notify || false;
-    activeTab.node.classList.remove('active');
+    activeTab && activeTab.node.classList.remove('active');
     activeTab = this;
     this.node.classList.add('active');
+    if (notify) {
+      port.postMessage({action:'activate', body:this.id});
+    }
   };
   // silence - boolean that determines whether to silence post message (default false)
   Tab.prototype.remove = function(silence)  {
@@ -144,7 +146,10 @@ if (!chrome || !chrome.runtime) {
       case 'populate':
         for (var i = 0; i<msg.body.length; i++) {
           var tab = msg.body[i];
-          new Tab(tab);
+          var newTab = new Tab(tab);
+          if (tab.active) {
+            newTab.activate();
+          }
         }
         break;
     }
