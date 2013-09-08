@@ -40,6 +40,10 @@ window.addEventListener('DOMContentLoaded', function() {
   var test = [];
   for (var i = 0; i < 20; i++) {
     var id = Math.floor(Math.random()*10000);
-    test.push(new Tab(id, i, 'Tab numero' + i));
+    var tab = new Tab(id, i, 'Tab numero ' + i);
+    test.push(tab);
+    if (i === 15) {
+      tab.node.classList.add('active');
+    }
   }
 }, true);
