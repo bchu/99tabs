@@ -1,3 +1,7 @@
+// debug:
+// var bg = chrome.extension.getBackgroundPage();
+// console = bg.console;
+
 window.addEventListener('DOMContentLoaded', function() {
   $ = function(sel) {
     var self = this;
@@ -41,7 +45,7 @@ window.addEventListener('DOMContentLoaded', function() {
     // add click listener to tab, also handle x button
     var self = this;
     this.node.addEventListener('click', function(evt) {
-      if (evt.target.nodeName === "SPAN") {
+      if (evt.target.classList.contains('times')) {
         this.remove();
         if (activeTab === self) {
           // TODO: handle stepping back of tabs (Chrome move forwards)
@@ -89,7 +93,7 @@ if (!chrome || !chrome.runtime) {
       case 'populate':
         for (var i = 0; i<msg.body.length; i++) {
           var tab = msg.body[i];
-          new Tab(tab.id,tab.index,tab.title, tab.faviconUrl);
+          new Tab(tab.id,tab.index,tab.title, tab.favIconUrl);
         }
       break;
     }

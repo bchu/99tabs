@@ -1,10 +1,16 @@
 // Background script:
 // http://developer.chrome.com/extensions/tabs.html#apiReference
 
+// debug:
+var bg = chrome.extension.getBackgroundPage();
+console = bg.console;
+console.log('hi');
+
 var currentTab;
 var tabs;
 
 var startup = function(port) {
+console.log('hi');
   // Startup
   chrome.tabs.query({}, function(tabsIn) {
     console.log(tabsIn);
@@ -31,5 +37,12 @@ chrome.runtime.onConnect.addListener(function(port) {
   startup(port);
   port.onMessage.addListener(function(msg) {
     console.log(msg);
+    var action = msg.action;
+    switch (action) {
+      case 'remove':
+        debugger;
+        chrome.tabs.remove(msg.id);
+      break;
+    }
   });
 });
