@@ -61,7 +61,6 @@ body {
   margin: 0 8px;
 }
 .favicon img {
-  /*box-sizing: content-box;*/
   padding-top: 3px;
   height: 16px;
   width: auto;

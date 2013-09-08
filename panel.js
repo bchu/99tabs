@@ -97,10 +97,6 @@ if (!chrome || !chrome.runtime) {
         }
       break;
     }
-    // if (action === 'populate') {
-    // }
-    // else {
 
-    // }
   });
 }, true);
